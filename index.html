@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0F1B20">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%20%22%D8%AB%D8%A8%D8%A7%D8%AA%20%E2%80%94%20%D8%AE%D8%B7%D9%88%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%D9%88%D8%A7%D9%84%D9%88%D8%B6%D9%88%D8%A1%22%2C%20%22short_name%22%3A%20%22%D8%AB%D8%A8%D8%A7%D8%AA%22%2C%20%22lang%22%3A%20%22ar%22%2C%20%22dir%22%3A%20%22rtl%22%2C%20%22start_url%22%3A%20%22.%22%2C%20%22display%22%3A%20%22standalone%22%2C%20%22background_color%22%3A%20%22%230F1B20%22%2C%20%22theme_color%22%3A%20%22%230F1B20%22%2C%20%22icons%22%3A%20%5B%7B%22src%22%3A%20%22data%3Aimage/svg%2Bxml%2C%253Csvg%2520xmlns%253D%2527http%253A//www.w3.org/2000/svg%2527%2520viewBox%253D%25270%25200%2520512%2520512%2527%253E%253Crect%2520width%253D%2527512%2527%2520height%253D%2527512%2527%2520rx%253D%252796%2527%2520fill%253D%2527%25230F1B20%2527/%253E%253Ctext%2520x%253D%2527256%2527%2520y%253D%2527330%2527%2520font-size%253D%2527260%2527%2520text-anchor%253D%2527middle%2527%2520fill%253D%2527%2523C9A15C%2527%2520font-family%253D%2527serif%2527%253E%25D8%25AB%25D8%25A8%25D8%25A7%25D8%25AA%253C/text%253E%253C/svg%253E%22%2C%20%22sizes%22%3A%20%22any%22%2C%20%22type%22%3A%20%22image/svg%2Bxml%22%2C%20%22purpose%22%3A%20%22any%22%7D%5D%7D">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20512%20512%27%3E%3Crect%20width%3D%27512%27%20height%3D%27512%27%20rx%3D%2796%27%20fill%3D%27%230F1B20%27/%3E%3Ctext%20x%3D%27256%27%20y%3D%27330%27%20font-size%3D%27260%27%20text-anchor%3D%27middle%27%20fill%3D%27%23C9A15C%27%20font-family%3D%27serif%27%3E%D8%AB%D8%A8%D8%A7%D8%AA%3C/text%3E%3C/svg%3E">
+<title>ثبات — خطوات الصلاة والوضوء</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0F1B20; --bg2:#16262C; --card:#1B2E35; --card-hover:#20363E;
+  --gold:#C9A15C; --gold-soft:#E3C98A; --text:#E8DCC4; --text-dim:#9BAAA9;
+  --teal:#6E9C99; --line:#2A3F45; --active:#2A4A48;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  box-sizing:border-box;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0; min-height:100%; background:var(--bg); color:var(--text); font-family:'Tajawal',sans-serif; direction:rtl;}
+.wrap{max-width:640px;margin:0 auto;padding:28px 20px 60px}
+header.top{
+  position:sticky; top:0; padding-top:calc(16px + env(safe-area-inset-top,0px));
+  padding-bottom:16px; background:linear-gradient(var(--bg) 75%, transparent);
+  z-index:5; display:flex; align-items:center; gap:12px; max-width:640px; margin:0 auto; padding-inline:20px;
+}
+.brand{font-family:'Amiri',serif; font-size:26px; color:var(--gold-soft)}
+.brand small{display:block; font-family:'Tajawal',sans-serif; font-size:12px; color:var(--text-dim); font-weight:400; margin-top:2px}
+.back-btn{background:var(--card); border:1px solid var(--line); color:var(--gold-soft); border-radius:10px; padding:8px 14px; font-size:14px; cursor:pointer; display:none;}
+.back-btn.show{display:inline-block}
+
+.intro{color:var(--text-dim); font-size:15px; line-height:1.9; margin:4px 0 26px; max-width:52ch}
+.section-label{font-size:13px; color:var(--text-dim); margin:24px 0 10px 2px}
+.prayer{background:var(--card); border:1px solid var(--line); border-radius:16px; margin-bottom:14px; overflow:hidden; transition:background .2s ease;}
+.prayer-head{display:flex; justify-content:space-between; align-items:center; padding:18px 20px; cursor:pointer; user-select:none;}
+.prayer-head:hover{background:var(--card-hover)}
+.prayer-name{font-family:'Amiri',serif; font-size:22px; color:var(--text)}
+.prayer-meta{font-size:13px; color:var(--text-dim); margin-top:4px}
+.chev{color:var(--gold); font-size:14px; transition:transform .25s ease}
+.prayer.open .chev{transform:rotate(180deg)}
+.types{max-height:0; overflow:hidden; transition:max-height .3s ease}
+.prayer.open .types{max-height:260px}
+.type-row{display:flex; justify-content:space-between; align-items:center; padding:14px 20px; border-top:1px solid var(--line); cursor:pointer;}
+.type-row:hover{background:var(--bg2)}
+.type-name{font-size:16px; color:var(--gold-soft)}
+.type-count{font-size:13px; color:var(--text-dim)}
+.simple-card{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px 20px; margin-bottom:14px; cursor:pointer; display:flex; justify-content:space-between; align-items:center;}
+.simple-card:hover{background:var(--card-hover)}
+
+.detail{display:none}
+.detail.show{display:block}
+.home-view.hide{display:none}
+.detail-title{font-family:'Amiri',serif; font-size:28px; color:var(--gold-soft); margin:0 0 4px}
+.detail-sub{color:var(--text-dim); font-size:14px; margin-bottom:18px}
+.tabs{display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap}
+.tab{background:var(--card); border:1px solid var(--line); color:var(--text-dim); border-radius:999px; padding:8px 18px; font-size:14px; cursor:pointer; font-family:'Tajawal',sans-serif;}
+.tab.active{background:var(--gold); color:var(--bg); border-color:var(--gold); font-weight:700}
+
+.voice-bar{display:flex; align-items:center; gap:10px; background:var(--bg2); border:1px solid var(--line); border-radius:12px; padding:10px 14px; margin-bottom:20px;}
+.voice-btn{background:var(--gold); color:var(--bg); border:none; border-radius:8px; padding:8px 16px; font-size:14px; font-weight:700; cursor:pointer; font-family:'Tajawal',sans-serif;}
+.voice-btn.on{background:#B23B3B; color:#fff}
+.voice-status{font-size:13px; color:var(--text-dim); flex:1}
+.voice-unsupported{font-size:12px; color:var(--text-dim); line-height:1.7}
+
+.step{display:flex; gap:14px; padding:16px 10px; border-top:1px solid var(--line); border-radius:10px; transition:background .25s ease;}
+.step:first-child{border-top:none}
+.step.active-step{background:var(--active)}
+.step-num{flex:0 0 30px; height:30px; border-radius:50%; background:var(--bg2); border:1px solid var(--teal); color:var(--teal); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700;}
+.step.active-step .step-num{background:var(--gold); border-color:var(--gold); color:var(--bg)}
+.step-text{font-size:16px; line-height:2; padding-top:3px}
+.step-text .dhikr{color:var(--gold-soft); font-family:'Amiri',serif; font-size:17px}
+footer{text-align:center; color:var(--text-dim); font-size:12px; margin-top:40px}
+
+.stage{display:flex; gap:14px; align-items:center; padding:16px 12px; border-top:1px solid var(--line); border-radius:10px; transition:background .25s ease, opacity .25s ease;}
+.stage:first-child{border-top:none}
+.stage.active-step{background:var(--active)}
+.stage.done{opacity:.55}
+.stage-body{flex:1}
+.stage-title{font-size:16px; line-height:1.8}
+.stage-title .dhikr{color:var(--gold-soft); font-family:'Amiri',serif; font-size:17px}
+.dots{display:flex; gap:8px; margin-top:8px}
+.dot{width:14px; height:14px; border-radius:50%; border:1.5px solid var(--teal); background:transparent; transition:background .2s ease}
+.dot.on{background:var(--gold); border-color:var(--gold)}
+.count-btn{background:var(--gold); color:var(--bg); border:none; border-radius:12px; min-width:64px; height:52px; font-size:20px; font-weight:700; cursor:pointer; font-family:'Tajawal',sans-serif; display:none}
+.stage.active-step .count-btn{display:block}
+.stage-num{flex:0 0 30px; height:30px; border-radius:50%; background:var(--bg2); border:1px solid var(--teal); color:var(--teal); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700;}
+.stage.done .stage-num{background:var(--teal); color:var(--bg)}
+.wudu-tools{display:flex; justify-content:space-between; align-items:center; margin-bottom:14px}
+.reset-btn{background:transparent; border:1px solid var(--line); color:var(--text-dim); border-radius:8px; padding:6px 12px; font-size:13px; cursor:pointer; font-family:'Tajawal',sans-serif}
+.finish{text-align:center; color:var(--gold-soft); font-family:'Amiri',serif; font-size:22px; margin:24px 0 0}
+
+.verses{margin-top:10px; display:flex; flex-direction:column; gap:4px}
+.verse{font-family:'Amiri',serif; font-size:19px; line-height:2.5; color:var(--text-dim); padding:4px 10px; border-radius:8px; transition:color .25s ease, background .25s ease;}
+.verse.verse-done{color:var(--gold-soft); background:var(--active);}
+.verse-progress{font-size:12px; color:var(--text-dim); margin-top:6px}
+.surah-select{margin-top:8px; background:var(--bg2); color:var(--gold-soft); border:1px solid var(--line); border-radius:8px; padding:8px 12px; font-family:'Amiri',serif; font-size:17px}
+</style>
+</head>
+<body>
+<header class="top">
+  <button class="back-btn" id="backBtn">← رجوع</button>
+  <div class="brand">ثبات<small>خطوات الصلاة والوضوء</small></div>
+</header>
+
+<div class="wrap">
+  <div class="home-view" id="homeView">
+    <p class="intro">اختر الوضوء أو إحدى الصلوات لعرض خطواتها بالترتيب، مع إمكانية المتابعة الصوتية أثناء الأداء.</p>
+
+    <div class="section-label">الطهارة</div>
+    <div class="simple-card" id="wuduCard">
+      <div>
+        <div class="prayer-name">الوضوء</div>
+        <div class="prayer-meta">12 مرحلة بعدّ صوتي</div>
+      </div>
+      <div class="chev">‹</div>
+    </div>
+
+    <div class="section-label">الصلوات</div>
+    <div id="prayerList"></div>
+  </div>
+
+  <div class="detail" id="detailView">
+    <h1 class="detail-title" id="detailTitle"></h1>
+    <p class="detail-sub" id="detailSub"></p>
+    <div class="tabs" id="rakaahTabs"></div>
+    <div class="voice-bar" id="voiceBar">
+      <button class="voice-btn" id="voiceBtn">🎙️ متابعة صوتية</button>
+      <span class="voice-status" id="voiceStatus">استمع لصوتك وينتقل تلقائيًا مع كل خطوة</span>
+    </div>
+    <div id="stepsList"></div>
+  </div>
+
+  <footer>ثبات — دليلك اليومي للصلاة والوضوء</footer>
+</div>
+
+<script>
+const FATIHA_VERSES = [
+  {text:'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ', key:'بسم الله الرحمن الرحيم', opt:true},
+  {text:'الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ', key:'الحمد لله رب العالمين'},
+  {text:'الرَّحْمَٰنِ الرَّحِيمِ', key:'الرحمن الرحيم'},
+  {text:'مَالِكِ يَوْمِ الدِّينِ', key:'مالك يوم الدين'},
+  {text:'إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ', key:'اياك نعبد واياك نستعين'},
+  {text:'اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ', key:'اهدنا الصراط المستقيم'},
+  {text:'صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ', key:'صراط الذين انعمت عليهم غير المغضوب عليهم ولا الضالين'},
+];
+const SURAHS = {"الإخلاص": "قُلْ هُوَ اللَّهُ أَحَدٌ|اللَّهُ الصَّمَدُ|لَمْ يَلِدْ وَلَمْ يُولَدْ|وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ", "الناس": "قُلْ أَعُوذُ بِرَبِّ النَّاسِ|مَلِكِ النَّاسِ|إِلَٰهِ النَّاسِ|مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ|الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ|مِنَ الْجِنَّةِ وَالنَّاسِ", "الفلق": "قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ|مِن شَرِّ مَا خَلَقَ|وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ|وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ|وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ", "المسد": "تَبَّتْ يَدَا أَبِي لَهَبٍ وَتَبَّ|مَا أَغْنَىٰ عَنْهُ مَالُهُ وَمَا كَسَبَ|سَيَصْلَىٰ نَارًا ذَاتَ لَهَبٍ|وَامْرَأَتُهُ حَمَّالَةَ الْحَطَبِ|فِي جِيدِهَا حَبْلٌ مِّن مَّسَدٍ", "النصر": "إِذَا جَاءَ نَصْرُ اللَّهِ وَالْفَتْحُ|وَرَأَيْتَ النَّاسَ يَدْخُلُونَ فِي دِينِ اللَّهِ أَفْوَاجًا|فَسَبِّحْ بِحَمْدِ رَبِّكَ وَاسْتَغْفِرْهُ إِنَّهُ كَانَ تَوَّابًا", "الكافرون": "قُلْ يَا أَيُّهَا الْكَافِرُونَ|لَا أَعْبُدُ مَا تَعْبُدُونَ|وَلَا أَنتُمْ عَابِدُونَ مَا أَعْبُدُ|وَلَا أَنَا عَابِدٌ مَّا عَبَدتُّمْ|وَلَا أَنتُمْ عَابِدُونَ مَا أَعْبُدُ|لَكُمْ دِينُكُمْ وَلِيَ دِينِ", "الكوثر": "إِنَّا أَعْطَيْنَاكَ الْكَوْثَرَ|فَصَلِّ لِرَبِّكَ وَانْحَرْ|إِنَّ شَانِئَكَ هُوَ الْأَبْتَرُ", "الماعون": "أَرَأَيْتَ الَّذِي يُكَذِّبُ بِالدِّينِ|فَذَٰلِكَ الَّذِي يَدُعُّ الْيَتِيمَ|وَلَا يَحُضُّ عَلَىٰ طَعَامِ الْمِسْكِينِ|فَوَيْلٌ لِّلْمُصَلِّينَ|الَّذِينَ هُمْ عَن صَلَاتِهِمْ سَاهُونَ|الَّذِينَ هُمْ يُرَاءُونَ|وَيَمْنَعُونَ الْمَاعُونَ", "قريش": "لِإِيلَافِ قُرَيْشٍ|إِيلَافِهِمْ رِحْلَةَ الشِّتَاءِ وَالصَّيْفِ|فَلْيَعْبُدُوا رَبَّ هَٰذَا الْبَيْتِ|الَّذِي أَطْعَمَهُم مِّن جُوعٍ وَآمَنَهُم مِّنْ خَوْفٍ", "الفيل": "أَلَمْ تَرَ كَيْفَ فَعَلَ رَبُّكَ بِأَصْحَابِ الْفِيلِ|أَلَمْ يَجْعَلْ كَيْدَهُمْ فِي تَضْلِيلٍ|وَأَرْسَلَ عَلَيْهِمْ طَيْرًا أَبَابِيلَ|تَرْمِيهِم بِحِجَارَةٍ مِّن سِجِّيلٍ|فَجَعَلَهُمْ كَعَصْفٍ مَّأْكُولٍ", "الهمزة": "وَيْلٌ لِّكُلِّ هُمَزَةٍ لُّمَزَةٍ|الَّذِي جَمَعَ مَالًا وَعَدَّدَهُ|يَحْسَبُ أَنَّ مَالَهُ أَخْلَدَهُ|كَلَّا ۖ لَيُنبَذَنَّ فِي الْحُطَمَةِ|وَمَا أَدْرَاكَ مَا الْحُطَمَةُ|نَارُ اللَّهِ الْمُوقَدَةُ|الَّتِي تَطَّلِعُ عَلَى الْأَفْئِدَةِ|إِنَّهَا عَلَيْهِم مُّؤْصَدَةٌ|فِي عَمَدٍ مُّمَدَّدَةٍ", "العصر": "وَالْعَصْرِ|إِنَّ الْإِنسَانَ لَفِي خُسْرٍ|إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ وَتَوَاصَوْا بِالْحَقِّ وَتَوَاصَوْا بِالصَّبْرِ", "التكاثر": "أَلْهَاكُمُ التَّكَاثُرُ|حَتَّىٰ زُرْتُمُ الْمَقَابِرَ|كَلَّا سَوْفَ تَعْلَمُونَ|ثُمَّ كَلَّا سَوْفَ تَعْلَمُونَ|كَلَّا لَوْ تَعْلَمُونَ عِلْمَ الْيَقِينِ|لَتَرَوُنَّ الْجَحِيمَ|ثُمَّ لَتَرَوُنَّهَا عَيْنَ الْيَقِينِ|ثُمَّ لَتُسْأَلُنَّ يَوْمَئِذٍ عَنِ النَّعِيمِ", "الزلزلة": "إِذَا زُلْزِلَتِ الْأَرْضُ زِلْزَالَهَا|وَأَخْرَجَتِ الْأَرْضُ أَثْقَالَهَا|وَقَالَ الْإِنسَانُ مَا لَهَا|يَوْمَئِذٍ تُحَدِّثُ أَخْبَارَهَا|بِأَنَّ رَبَّكَ أَوْحَىٰ لَهَا|يَوْمَئِذٍ يَصْدُرُ النَّاسُ أَشْتَاتًا لِّيُرَوْا أَعْمَالَهُمْ|فَمَن يَعْمَلْ مِثْقَالَ ذَرَّةٍ خَيْرًا يَرَهُ|وَمَن يَعْمَلْ مِثْقَالَ ذَرَّةٍ شَرًّا يَرَهُ", "القدر": "إِنَّا أَنزَلْنَاهُ فِي لَيْلَةِ الْقَدْرِ|وَمَا أَدْرَاكَ مَا لَيْلَةُ الْقَدْرِ|لَيْلَةُ الْقَدْرِ خَيْرٌ مِّنْ أَلْفِ شَهْرٍ|تَنَزَّلُ الْمَلَائِكَةُ وَالرُّوحُ فِيهَا بِإِذْنِ رَبِّهِم مِّن كُلِّ أَمْرٍ|سَلَامٌ هِيَ حَتَّىٰ مَطْلَعِ الْفَجْرِ", "التين": "وَالتِّينِ وَالزَّيْتُونِ|وَطُورِ سِينِينَ|وَهَٰذَا الْبَلَدِ الْأَمِينِ|لَقَدْ خَلَقْنَا الْإِنسَانَ فِي أَحْسَنِ تَقْوِيمٍ|ثُمَّ رَدَدْنَاهُ أَسْفَلَ سَافِلِينَ|إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ فَلَهُمْ أَجْرٌ غَيْرُ مَمْنُونٍ|فَمَا يُكَذِّبُكَ بَعْدُ بِالدِّينِ|أَلَيْسَ اللَّهُ بِأَحْكَمِ الْحَاكِمِينَ", "الشرح": "أَلَمْ نَشْرَحْ لَكَ صَدْرَكَ|وَوَضَعْنَا عَنكَ وِزْرَكَ|الَّذِي أَنقَضَ ظَهْرَكَ|وَرَفَعْنَا لَكَ ذِكْرَكَ|فَإِنَّ مَعَ الْعُسْرِ يُسْرًا|إِنَّ مَعَ الْعُسْرِ يُسْرًا|فَإِذَا فَرَغْتَ فَانصَبْ|وَإِلَىٰ رَبِّكَ فَارْغَب", "الضحى": "وَالضُّحَىٰ|وَاللَّيْلِ إِذَا سَجَىٰ|مَا وَدَّعَكَ رَبُّكَ وَمَا قَلَىٰ|وَلَلْآخِرَةُ خَيْرٌ لَّكَ مِنَ الْأُولَىٰ|وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰ|أَلَمْ يَجِدْكَ يَتِيمًا فَآوَىٰ|وَوَجَدَكَ ضَالًّا فَهَدَىٰ|وَوَجَدَكَ عَائِلًا فَأَغْنَىٰ|فَأَمَّا الْيَتِيمَ فَلَا تَقْهَرْ|وَأَمَّا السَّائِلَ فَلَا تَنْهَرْ|وَأَمَّا بِنِعْمَةِ رَبِّكَ فَحَدِّثْ", "الشمس": "وَالشَّمْسِ وَضُحَاهَا|وَالْقَمَرِ إِذَا تَلَاهَا|وَالنَّهَارِ إِذَا جَلَّاهَا|وَاللَّيْلِ إِذَا يَغْشَاهَا|وَالسَّمَاءِ وَمَا بَنَاهَا|وَالْأَرْضِ وَمَا طَحَاهَا|وَنَفْسٍ وَمَا سَوَّاهَا|فَأَلْهَمَهَا فُجُورَهَا وَتَقْوَاهَا|قَدْ أَفْلَحَ مَن زَكَّاهَا|وَقَدْ خَابَ مَن دَسَّاهَا|كَذَّبَتْ ثَمُودُ بِطَغْوَاهَا|إِذِ انبَعَثَ أَشْقَاهَا|فَقَالَ لَهُمْ رَسُولُ اللَّهِ نَاقَةَ اللَّهِ وَسُقْيَاهَا|فَكَذَّبُوهُ فَعَقَرُوهَا فَدَمْدَمَ عَلَيْهِمْ رَبُّهُم بِذَنبِهِمْ فَسَوَّاهَا|وَلَا يَخَافُ عُقْبَاهَا", "الأعلى": "سَبِّحِ اسْمَ رَبِّكَ الْأَعْلَى|الَّذِي خَلَقَ فَسَوَّىٰ|وَالَّذِي قَدَّرَ فَهَدَىٰ|وَالَّذِي أَخْرَجَ الْمَرْعَىٰ|فَجَعَلَهُ غُثَاءً أَحْوَىٰ|سَنُقْرِئُكَ فَلَا تَنسَىٰ|إِلَّا مَا شَاءَ اللَّهُ ۚ إِنَّهُ يَعْلَمُ الْجَهْرَ وَمَا يَخْفَىٰ|وَنُيَسِّرُكَ لِلْيُسْرَىٰ|فَذَكِّرْ إِن نَّفَعَتِ الذِّكْرَىٰ|سَيَذَّكَّرُ مَن يَخْشَىٰ|وَيَتَجَنَّبُهَا الْأَشْقَى|الَّذِي يَصْلَى النَّارَ الْكُبْرَىٰ|ثُمَّ لَا يَمُوتُ فِيهَا وَلَا يَحْيَىٰ|قَدْ أَفْلَحَ مَن تَزَكَّىٰ|وَذَكَرَ اسْمَ رَبِّهِ فَصَلَّىٰ|بَلْ تُؤْثِرُونَ الْحَيَاةَ الدُّنْيَا|وَالْآخِرَةُ خَيْرٌ وَأَبْقَىٰ|إِنَّ هَٰذَا لَفِي الصُّحُفِ الْأُولَىٰ|صُحُفِ إِبْرَاهِيمَ وَمُوسَىٰ", "الطارق": "وَالسَّمَاءِ وَالطَّارِقِ|وَمَا أَدْرَاكَ مَا الطَّارِقُ|النَّجْمُ الثَّاقِبُ|إِن كُلُّ نَفْسٍ لَّمَّا عَلَيْهَا حَافِظٌ|فَلْيَنظُرِ الْإِنسَانُ مِمَّ خُلِقَ|خُلِقَ مِن مَّاءٍ دَافِقٍ|يَخْرُجُ مِن بَيْنِ الصُّلْبِ وَالتَّرَائِبِ|إِنَّهُ عَلَىٰ رَجْعِهِ لَقَادِرٌ|يَوْمَ تُبْلَى السَّرَائِرُ|فَمَا لَهُ مِن قُوَّةٍ وَلَا نَاصِرٍ|وَالسَّمَاءِ ذَاتِ الرَّجْعِ|وَالْأَرْضِ ذَاتِ الصَّدْعِ|إِنَّهُ لَقَوْلٌ فَصْلٌ|وَمَا هُوَ بِالْهَزْلِ|إِنَّهُمْ يَكِيدُونَ كَيْدًا|وَأَكِيدُ كَيْدًا|فَمَهِّلِ الْكَافِرِينَ أَمْهِلْهُمْ رُوَيْدًا"};
+Object.assign(SURAHS, {"العلق": "اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ|خَلَقَ الْإِنسَانَ مِنْ عَلَقٍ|اقْرَأْ وَرَبُّكَ الْأَكْرَمُ|الَّذِي عَلَّمَ بِالْقَلَمِ|عَلَّمَ الْإِنسَانَ مَا لَمْ يَعْلَمْ|كَلَّا إِنَّ الْإِنسَانَ لَيَطْغَىٰ|أَن رَّآهُ اسْتَغْنَىٰ|إِنَّ إِلَىٰ رَبِّكَ الرُّجْعَىٰ|أَرَأَيْتَ الَّذِي يَنْهَىٰ|عَبْدًا إِذَا صَلَّىٰ|أَرَأَيْتَ إِن كَانَ عَلَى الْهُدَىٰ|أَوْ أَمَرَ بِالتَّقْوَىٰ|أَرَأَيْتَ إِن كَذَّبَ وَتَوَلَّىٰ|أَلَمْ يَعْلَم بِأَنَّ اللَّهَ يَرَىٰ|كَلَّا لَئِن لَّمْ يَنتَهِ لَنَسْفَعًا بِالنَّاصِيَةِ|نَاصِيَةٍ كَاذِبَةٍ خَاطِئَةٍ|فَلْيَدْعُ نَادِيَهُ|سَنَدْعُ الزَّبَانِيَةَ|كَلَّا لَا تُطِعْهُ وَاسْجُدْ وَاقْتَرِب", "الليل": "وَاللَّيْلِ إِذَا يَغْشَىٰ|وَالنَّهَارِ إِذَا تَجَلَّىٰ|وَمَا خَلَقَ الذَّكَرَ وَالْأُنثَىٰ|إِنَّ سَعْيَكُمْ لَشَتَّىٰ|فَأَمَّا مَن أَعْطَىٰ وَاتَّقَىٰ|وَصَدَّقَ بِالْحُسْنَىٰ|فَسَنُيَسِّرُهُ لِلْيُسْرَىٰ|وَأَمَّا مَن بَخِلَ وَاسْتَغْنَىٰ|وَكَذَّبَ بِالْحُسْنَىٰ|فَسَنُيَسِّرُهُ لِلْعُسْرَىٰ|وَمَا يُغْنِي عَنْهُ مَالُهُ إِذَا تَرَدَّىٰ|إِنَّ عَلَيْنَا لَلْهُدَىٰ|وَإِنَّ لَنَا لَلْآخِرَةَ وَالْأُولَىٰ|فَأَنذَرْتُكُمْ نَارًا تَلَظَّىٰ|لَا يَصْلَاهَا إِلَّا الْأَشْقَى|الَّذِي كَذَّبَ وَتَوَلَّىٰ|وَسَيُجَنَّبُهَا الْأَتْقَى|الَّذِي يُؤْتِي مَالَهُ يَتَزَكَّىٰ|وَمَا لِأَحَدٍ عِندَهُ مِن نِّعْمَةٍ تُجْزَىٰ|إِلَّا ابْتِغَاءَ وَجْهِ رَبِّهِ الْأَعْلَىٰ|وَلَسَوْفَ يَرْضَىٰ", "البلد": "لَا أُقْسِمُ بِهَٰذَا الْبَلَدِ|وَأَنتَ حِلٌّ بِهَٰذَا الْبَلَدِ|وَوَالِدٍ وَمَا وَلَدَ|لَقَدْ خَلَقْنَا الْإِنسَانَ فِي كَبَدٍ|أَيَحْسَبُ أَن لَّن يَقْدِرَ عَلَيْهِ أَحَدٌ|يَقُولُ أَهْلَكْتُ مَالًا لُّبَدًا|أَيَحْسَبُ أَن لَّمْ يَرَهُ أَحَدٌ|أَلَمْ نَجْعَل لَّهُ عَيْنَيْنِ|وَلِسَانًا وَشَفَتَيْنِ|وَهَدَيْنَاهُ النَّجْدَيْنِ|فَلَا اقْتَحَمَ الْعَقَبَةَ|وَمَا أَدْرَاكَ مَا الْعَقَبَةُ|فَكُّ رَقَبَةٍ|أَوْ إِطْعَامٌ فِي يَوْمٍ ذِي مَسْغَبَةٍ|يَتِيمًا ذَا مَقْرَبَةٍ|أَوْ مِسْكِينًا ذَا مَتْرَبَةٍ|ثُمَّ كَانَ مِنَ الَّذِينَ آمَنُوا وَتَوَاصَوْا بِالصَّبْرِ وَتَوَاصَوْا بِالْمَرْحَمَةِ|أُولَٰئِكَ أَصْحَابُ الْمَيْمَنَةِ|وَالَّذِينَ كَفَرُوا بِآيَاتِنَا هُمْ أَصْحَابُ الْمَشْأَمَةِ|عَلَيْهِمْ نَارٌ مُّؤْصَدَةٌ", "العاديات": "وَالْعَادِيَاتِ ضَبْحًا|فَالْمُورِيَاتِ قَدْحًا|فَالْمُغِيرَاتِ صُبْحًا|فَأَثَرْنَ بِهِ نَقْعًا|فَوَسَطْنَ بِهِ جَمْعًا|إِنَّ الْإِنسَانَ لِرَبِّهِ لَكَنُودٌ|وَإِنَّهُ عَلَىٰ ذَٰلِكَ لَشَهِيدٌ|وَإِنَّهُ لِحُبِّ الْخَيْرِ لَشَدِيدٌ|أَفَلَا يَعْلَمُ إِذَا بُعْثِرَ مَا فِي الْقُبُورِ|وَحُصِّلَ مَا فِي الصُّدُورِ|إِنَّ رَبَّهُم بِهِمْ يَوْمَئِذٍ لَّخَبِيرٌ", "القارعة": "الْقَارِعَةُ|مَا الْقَارِعَةُ|وَمَا أَدْرَاكَ مَا الْقَارِعَةُ|يَوْمَ يَكُونُ النَّاسُ كَالْفَرَاشِ الْمَبْثُوثِ|وَتَكُونُ الْجِبَالُ كَالْعِهْنِ الْمَنفُوشِ|فَأَمَّا مَن ثَقُلَتْ مَوَازِينُهُ|فَهُوَ فِي عِيشَةٍ رَّاضِيَةٍ|وَأَمَّا مَنْ خَفَّتْ مَوَازِينُهُ|فَأُمُّهُ هَاوِيَةٌ|وَمَا أَدْرَاكَ مَا هِيَهْ|نَارٌ حَامِيَةٌ"});
+Object.assign(SURAHS, {"الانفطار": "إِذَا السَّمَاءُ انفَطَرَتْ|وَإِذَا الْكَوَاكِبُ انتَثَرَتْ|وَإِذَا الْبِحَارُ فُجِّرَتْ|وَإِذَا الْقُبُورُ بُعْثِرَتْ|عَلِمَتْ نَفْسٌ مَّا قَدَّمَتْ وَأَخَّرَتْ|يَا أَيُّهَا الْإِنسَانُ مَا غَرَّكَ بِرَبِّكَ الْكَرِيمِ|الَّذِي خَلَقَكَ فَسَوَّاكَ فَعَدَلَكَ|فِي أَيِّ صُورَةٍ مَّا شَاءَ رَكَّبَكَ|كَلَّا بَلْ تُكَذِّبُونَ بِالدِّينِ|وَإِنَّ عَلَيْكُمْ لَحَافِظِينَ|كِرَامًا كَاتِبِينَ|يَعْلَمُونَ مَا تَفْعَلُونَ|إِنَّ الْأَبْرَارَ لَفِي نَعِيمٍ|وَإِنَّ الْفُجَّارَ لَفِي جَحِيمٍ|يَصْلَوْنَهَا يَوْمَ الدِّينِ|وَمَا هُمْ عَنْهَا بِغَائِبِينَ|وَمَا أَدْرَاكَ مَا يَوْمُ الدِّينِ|ثُمَّ مَا أَدْرَاكَ مَا يَوْمُ الدِّينِ|يَوْمَ لَا تَمْلِكُ نَفْسٌ لِّنَفْسٍ شَيْئًا ۖ وَالْأَمْرُ يَوْمَئِذٍ لِّلَّهِ", "التكوير": "إِذَا الشَّمْسُ كُوِّرَتْ|وَإِذَا النُّجُومُ انكَدَرَتْ|وَإِذَا الْجِبَالُ سُيِّرَتْ|وَإِذَا الْعِشَارُ عُطِّلَتْ|وَإِذَا الْوُحُوشُ حُشِرَتْ|وَإِذَا الْبِحَارُ سُجِّرَتْ|وَإِذَا النُّفُوسُ زُوِّجَتْ|وَإِذَا الْمَوْءُودَةُ سُئِلَتْ|بِأَيِّ ذَنبٍ قُتِلَتْ|وَإِذَا الصُّحُفُ نُشِرَتْ|وَإِذَا السَّمَاءُ كُشِطَتْ|وَإِذَا الْجَحِيمُ سُعِّرَتْ|وَإِذَا الْجَنَّةُ أُزْلِفَتْ|عَلِمَتْ نَفْسٌ مَّا أَحْضَرَتْ|فَلَا أُقْسِمُ بِالْخُنَّسِ|الْجَوَارِ الْكُنَّسِ|وَاللَّيْلِ إِذَا عَسْعَسَ|وَالصُّبْحِ إِذَا تَنَفَّسَ|إِنَّهُ لَقَوْلُ رَسُولٍ كَرِيمٍ|ذِي قُوَّةٍ عِندَ ذِي الْعَرْشِ مَكِينٍ|مُّطَاعٍ ثَمَّ أَمِينٍ|وَمَا صَاحِبُكُم بِمَجْنُونٍ|وَلَقَدْ رَآهُ بِالْأُفُقِ الْمُبِينِ|وَمَا هُوَ عَلَى الْغَيْبِ بِضَنِينٍ|وَمَا هُوَ بِقَوْلِ شَيْطَانٍ رَّجِيمٍ|فَأَيْنَ تَذْهَبُونَ|إِنْ هُوَ إِلَّا ذِكْرٌ لِّلْعَالَمِينَ|لِمَن شَاءَ مِنكُمْ أَن يَسْتَقِيمَ|وَمَا تَشَاءُونَ إِلَّا أَن يَشَاءَ اللَّهُ رَبُّ الْعَالَمِينَ", "الانشقاق": "إِذَا السَّمَاءُ انشَقَّتْ|وَأَذِنَتْ لِرَبِّهَا وَحُقَّتْ|وَإِذَا الْأَرْضُ مُدَّتْ|وَأَلْقَتْ مَا فِيهَا وَتَخَلَّتْ|وَأَذِنَتْ لِرَبِّهَا وَحُقَّتْ|يَا أَيُّهَا الْإِنسَانُ إِنَّكَ كَادِحٌ إِلَىٰ رَبِّكَ كَدْحًا فَمُلَاقِيهِ|فَأَمَّا مَنْ أُوتِيَ كِتَابَهُ بِيَمِينِهِ|فَسَوْفَ يُحَاسَبُ حِسَابًا يَسِيرًا|وَيَنقَلِبُ إِلَىٰ أَهْلِهِ مَسْرُورًا|وَأَمَّا مَنْ أُوتِيَ كِتَابَهُ وَرَاءَ ظَهْرِهِ|فَسَوْفَ يَدْعُو ثُبُورًا|وَيَصْلَىٰ سَعِيرًا|إِنَّهُ كَانَ فِي أَهْلِهِ مَسْرُورًا|إِنَّهُ ظَنَّ أَن لَّن يَحُورَ|بَلَىٰ إِنَّ رَبَّهُ كَانَ بِهِ بَصِيرًا|فَلَا أُقْسِمُ بِالشَّفَقِ|وَاللَّيْلِ وَمَا وَسَقَ|وَالْقَمَرِ إِذَا اتَّسَقَ|لَتَرْكَبُنَّ طَبَقًا عَن طَبَقٍ|فَمَا لَهُمْ لَا يُؤْمِنُونَ|وَإِذَا قُرِئَ عَلَيْهِمُ الْقُرْآنُ لَا يَسْجُدُونَ|بَلِ الَّذِينَ كَفَرُوا يُكَذِّبُونَ|وَاللَّهُ أَعْلَمُ بِمَا يُوعُونَ|فَبَشِّرْهُم بِعَذَابٍ أَلِيمٍ|إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ لَهُمْ أَجْرٌ غَيْرُ مَمْنُونٍ", "البروج": "وَالسَّمَاءِ ذَاتِ الْبُرُوجِ|وَالْيَوْمِ الْمَوْعُودِ|وَشَاهِدٍ وَمَشْهُودٍ|قُتِلَ أَصْحَابُ الْأُخْدُودِ|النَّارِ ذَاتِ الْوَقُودِ|إِذْ هُمْ عَلَيْهَا قُعُودٌ|وَهُمْ عَلَىٰ مَا يَفْعَلُونَ بِالْمُؤْمِنِينَ شُهُودٌ|وَمَا نَقَمُوا مِنْهُمْ إِلَّا أَن يُؤْمِنُوا بِاللَّهِ الْعَزِيزِ الْحَمِيدِ|الَّذِي لَهُ مُلْكُ السَّمَاوَاتِ وَالْأَرْضِ ۚ وَاللَّهُ عَلَىٰ كُلِّ شَيْءٍ شَهِيدٌ|إِنَّ الَّذِينَ فَتَنُوا الْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ ثُمَّ لَمْ يَتُوبُوا فَلَهُمْ عَذَابُ جَهَنَّمَ وَلَهُمْ عَذَابُ الْحَرِيقِ|إِنَّ الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ لَهُمْ جَنَّاتٌ تَجْرِي مِن تَحْتِهَا الْأَنْهَارُ ۚ ذَٰلِكَ الْفَوْزُ الْكَبِيرُ|إِنَّ بَطْشَ رَبِّكَ لَشَدِيدٌ|إِنَّهُ هُوَ يُبْدِئُ وَيُعِيدُ|وَهُوَ الْغَفُورُ الْوَدُودُ|ذُو الْعَرْشِ الْمَجِيدُ|فَعَّالٌ لِّمَا يُرِيدُ|هَلْ أَتَاكَ حَدِيثُ الْجُنُودِ|فِرْعَوْنَ وَثَمُودَ|بَلِ الَّذِينَ كَفَرُوا فِي تَكْذِيبٍ|وَاللَّهُ مِن وَرَائِهِم مُّحِيطٌ|بَلْ هُوَ قُرْآنٌ مَّجِيدٌ|فِي لَوْحٍ مَّحْفُوظٍ", "الغاشية": "هَلْ أَتَاكَ حَدِيثُ الْغَاشِيَةِ|وُجُوهٌ يَوْمَئِذٍ خَاشِعَةٌ|عَامِلَةٌ نَّاصِبَةٌ|تَصْلَىٰ نَارًا حَامِيَةً|تُسْقَىٰ مِنْ عَيْنٍ آنِيَةٍ|لَّيْسَ لَهُمْ طَعَامٌ إِلَّا مِن ضَرِيعٍ|لَّا يُسْمِنُ وَلَا يُغْنِي مِن جُوعٍ|وُجُوهٌ يَوْمَئِذٍ نَّاعِمَةٌ|لِّسَعْيِهَا رَاضِيَةٌ|فِي جَنَّةٍ عَالِيَةٍ|لَّا تَسْمَعُ فِيهَا لَاغِيَةً|فِيهَا عَيْنٌ جَارِيَةٌ|فِيهَا سُرُرٌ مَّرْفُوعَةٌ|وَأَكْوَابٌ مَّوْضُوعَةٌ|وَنَمَارِقُ مَصْفُوفَةٌ|وَزَرَابِيُّ مَبْثُوثَةٌ|أَفَلَا يَنظُرُونَ إِلَى الْإِبِلِ كَيْفَ خُلِقَتْ|وَإِلَى السَّمَاءِ كَيْفَ رُفِعَتْ|وَإِلَى الْجِبَالِ كَيْفَ نُصِبَتْ|وَإِلَى الْأَرْضِ كَيْفَ سُطِحَتْ|فَذَكِّرْ إِنَّمَا أَنتَ مُذَكِّرٌ|لَّسْتَ عَلَيْهِم بِمُصَيْطِرٍ|إِلَّا مَن تَوَلَّىٰ وَكَفَرَ|فَيُعَذِّبُهُ اللَّهُ الْعَذَابَ الْأَكْبَرَ|إِنَّ إِلَيْنَا إِيَابَهُمْ|ثُمَّ إِنَّ عَلَيْنَا حِسَابَهُم", "الفجر": "وَالْفَجْرِ|وَلَيَالٍ عَشْرٍ|وَالشَّفْعِ وَالْوَتْرِ|وَاللَّيْلِ إِذَا يَسْرِ|هَلْ فِي ذَٰلِكَ قَسَمٌ لِّذِي حِجْرٍ|أَلَمْ تَرَ كَيْفَ فَعَلَ رَبُّكَ بِعَادٍ|إِرَمَ ذَاتِ الْعِمَادِ|الَّتِي لَمْ يُخْلَقْ مِثْلُهَا فِي الْبِلَادِ|وَثَمُودَ الَّذِينَ جَابُوا الصَّخْرَ بِالْوَادِ|وَفِرْعَوْنَ ذِي الْأَوْتَادِ|الَّذِينَ طَغَوْا فِي الْبِلَادِ|فَأَكْثَرُوا فِيهَا الْفَسَادَ|فَصَبَّ عَلَيْهِمْ رَبُّكَ سَوْطَ عَذَابٍ|إِنَّ رَبَّكَ لَبِالْمِرْصَادِ|فَأَمَّا الْإِنسَانُ إِذَا مَا ابْتَلَاهُ رَبُّهُ فَأَكْرَمَهُ وَنَعَّمَهُ فَيَقُولُ رَبِّي أَكْرَمَنِ|وَأَمَّا إِذَا مَا ابْتَلَاهُ فَقَدَرَ عَلَيْهِ رِزْقَهُ فَيَقُولُ رَبِّي أَهَانَنِ|كَلَّا ۖ بَل لَّا تُكْرِمُونَ الْيَتِيمَ|وَلَا تَحَاضُّونَ عَلَىٰ طَعَامِ الْمِسْكِينِ|وَتَأْكُلُونَ التُّرَاثَ أَكْلًا لَّمًّا|وَتُحِبُّونَ الْمَالَ حُبًّا جَمًّا|كَلَّا إِذَا دُكَّتِ الْأَرْضُ دَكًّا دَكًّا|وَجَاءَ رَبُّكَ وَالْمَلَكُ صَفًّا صَفًّا|وَجِيءَ يَوْمَئِذٍ بِجَهَنَّمَ ۚ يَوْمَئِذٍ يَتَذَكَّرُ الْإِنسَانُ وَأَنَّىٰ لَهُ الذِّكْرَىٰ|يَقُولُ يَا لَيْتَنِي قَدَّمْتُ لِحَيَاتِي|فَيَوْمَئِذٍ لَّا يُعَذِّبُ عَذَابَهُ أَحَدٌ|وَلَا يُوثِقُ وَثَاقَهُ أَحَدٌ|يَا أَيَّتُهَا النَّفْسُ الْمُطْمَئِنَّةُ|ارْجِعِي إِلَىٰ رَبِّكِ رَاضِيَةً مَّرْضِيَّةً|فَادْخُلِي فِي عِبَادِي|وَادْخُلِي جَنَّتِي", "البينة": "لَمْ يَكُنِ الَّذِينَ كَفَرُوا مِنْ أَهْلِ الْكِتَابِ وَالْمُشْرِكِينَ مُنفَكِّينَ حَتَّىٰ تَأْتِيَهُمُ الْبَيِّنَةُ|رَسُولٌ مِّنَ اللَّهِ يَتْلُو صُحُفًا مُّطَهَّرَةً|فِيهَا كُتُبٌ قَيِّمَةٌ|وَمَا تَفَرَّقَ الَّذِينَ أُوتُوا الْكِتَابَ إِلَّا مِن بَعْدِ مَا جَاءَتْهُمُ الْبَيِّنَةُ|وَمَا أُمِرُوا إِلَّا لِيَعْبُدُوا اللَّهَ مُخْلِصِينَ لَهُ الدِّينَ حُنَفَاءَ وَيُقِيمُوا الصَّلَاةَ وَيُؤْتُوا الزَّكَاةَ ۚ وَذَٰلِكَ دِينُ الْقَيِّمَةِ|إِنَّ الَّذِينَ كَفَرُوا مِنْ أَهْلِ الْكِتَابِ وَالْمُشْرِكِينَ فِي نَارِ جَهَنَّمَ خَالِدِينَ فِيهَا ۚ أُولَٰئِكَ هُمْ شَرُّ الْبَرِيَّةِ|إِنَّ الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ أُولَٰئِكَ هُمْ خَيْرُ الْبَرِيَّةِ|جَزَاؤُهُمْ عِندَ رَبِّهِمْ جَنَّاتُ عَدْنٍ تَجْرِي مِن تَحْتِهَا الْأَنْهَارُ خَالِدِينَ فِيهَا أَبَدًا ۖ رَّضِيَ اللَّهُ عَنْهُمْ وَرَضُوا عَنْهُ ۚ ذَٰلِكَ لِمَنْ خَشِيَ رَبَّهُ"});
+let chosenSurah = 'الإخلاص';
+function surahVerses(){ return [{text:'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ', key:'بسم الله الرحمن الرحيم', opt:true}].concat(SURAHS[chosenSurah].split('|').map(t=>({text:t, key:t}))); }
+
+const PRAYERS = {
+  fajr:{ name:'الفجر', types:[ {key:'sunnah',name:'سنة',rakaat:2}, {key:'fard',name:'فرض',rakaat:2} ] },
+  dhuhr:{ name:'الظهر', types:[ {key:'sunnah1',name:'سنة قبلية',rakaat:2}, {key:'fard',name:'فرض',rakaat:4}, {key:'sunnah2',name:'سنة بعدية',rakaat:2} ] },
+  asr:{ name:'العصر', types:[ {key:'fard',name:'فرض',rakaat:4} ] },
+  maghrib:{ name:'المغرب', types:[ {key:'fard',name:'فرض',rakaat:3}, {key:'sunnah',name:'سنة',rakaat:2} ] },
+  isha:{ name:'العشاء', types:[ {key:'fard',name:'فرض',rakaat:4}, {key:'sunnah',name:'سنة',rakaat:2}, {key:'witr',name:'وتر',rakaat:1} ] },
+};
+
+function ordinal(n){ return ['الأولى','الثانية','الثالثة','الرابعة'][n-1]; }
+
+// step = { html, matchKey }  matchKey used for voice matching (short, distinctive, no diacritics)
+function buildRakaahSteps(idx, total, isWitrSingle){
+  const steps = [];
+  const first = idx === 1;
+  const last = idx === total;
+
+  if(first){
+    steps.push({html:'النية بالقلب لأداء هذه الصلاة', matchKey:null});
+    steps.push({html:'تكبيرة الإحرام: رفع اليدين وقول <span class="dhikr">الله أكبر</span>', matchKey:'الله اكبر'});
+    steps.push({html:'وضع اليد اليمنى على اليسرى فوق الصدر', matchKey:null});
+    steps.push({html:'دعاء الاستفتاح، ومن صيغه: <span class="dhikr">سبحانك اللهم وبحمدك، وتبارك اسمك، وتعالى جدك، ولا إله غيرك</span><br>أو: <span class="dhikr">وجهت وجهي للذي فطر السموات والأرض حنيفًا مسلمًا وما أنا من المشركين</span>', matchKey:['سبحانك اللهم وبحمدك','وجهت وجهي للذي']});
+  } else {
+    steps.push({html:'القيام من السجود وتكبيرة الانتقال: <span class="dhikr">الله أكبر</span>', matchKey:'الله اكبر'});
+  }
+
+  steps.push({html:'التعوذ: <span class="dhikr">أعوذ بالله من الشيطان الرجيم</span>، ثم البسملة', matchKey:'اعوذ بالله من الشيطان الرجيم'});
+  steps.push({html:'قراءة سورة الفاتحة', verses:FATIHA_VERSES});
+  if(idx <= 2) steps.push({html:'قراءة سورة بعد الفاتحة — اختيرت لك عشوائيًا (يمكنك تغييرها قبل الصلاة)', surahPicker:true, verses:surahVerses()});
+
+  if(isWitrSingle){
+    steps.push({html:'دعاء القنوت (اختياري): بعد الرفع من الركوع أو قبل الركوع في الركعة الأخيرة', matchKey:'اللهم اهدني'});
+  }
+
+  steps.push({html:'الركوع: <span class="dhikr">الله أكبر</span>، والانحناء مع وضع اليدين على الركبتين', matchKey:'الله اكبر'});
+  steps.push({html:'التسبيح في الركوع: <span class="dhikr">سبحان ربي العظيم</span> (ثلاث مرات)', matchKey:'سبحان ربي العظيم'});
+  steps.push({html:'الرفع من الركوع: <span class="dhikr">سمع الله لمن حمده</span>، وعند الاعتدال: <span class="dhikr">ربنا ولك الحمد</span>', matchKey:'سمع الله لمن حمده'});
+  steps.push({html:'السجود الأول: <span class="dhikr">الله أكبر</span>', matchKey:'الله اكبر'});
+  steps.push({html:'التسبيح في السجود: <span class="dhikr">سبحان ربي الأعلى</span> (ثلاث مرات)', matchKey:'سبحان ربي الاعلى'});
+  steps.push({html:'الجلوس بين السجدتين: <span class="dhikr">الله أكبر</span>، ثم <span class="dhikr">رب اغفر لي</span>', matchKey:'رب اغفر لي'});
+  steps.push({html:'السجود الثاني: <span class="dhikr">الله أكبر</span>، ثم <span class="dhikr">سبحان ربي الأعلى</span> (ثلاث مرات)', matchKey:'سبحان ربي الاعلى'});
+
+  const isTashahhudMiddle = !last && (idx === 2) && total > 2;
+
+  if(last){
+    steps.push({html:'الجلوس للتشهد: <span class="dhikr">الله أكبر</span>', matchKey:'الله اكبر'});
+    steps.push({html:'التشهد: <span class="dhikr">التحيات لله والصلوات والطيبات، السلام عليك أيها النبي ورحمة الله وبركاته، السلام علينا وعلى عباد الله الصالحين، أشهد أن لا إله إلا الله وأشهد أن محمدًا عبده ورسوله</span>', matchKey:'التحيات لله والصلوات والطيبات'});
+    steps.push({html:'الصلاة الإبراهيمية: <span class="dhikr">اللهم صل على محمد وعلى آل محمد كما صليت على إبراهيم...</span>', matchKey:'اللهم صل على محمد'});
+    steps.push({html:'التسليم: الالتفات يمينًا وقول <span class="dhikr">السلام عليكم ورحمة الله</span>، ثم يسارًا بنفس الدعاء', matchKey:'السلام عليكم ورحمة الله'});
+  } else if(isTashahhudMiddle){
+    steps.push({html:'الجلوس للتشهد الأوسط: <span class="dhikr">الله أكبر</span>', matchKey:'الله اكبر'});
+    steps.push({html:'التشهد: <span class="dhikr">التحيات لله والصلوات والطيبات...</span>', matchKey:'التحيات لله والصلوات والطيبات'});
+    steps.push({html:'القيام للركعة التالية: <span class="dhikr">الله أكبر</span>، دون الصلاة الإبراهيمية', matchKey:'الله اكبر'});
+  } else {
+    steps.push({html:'القيام للركعة التالية: <span class="dhikr">الله أكبر</span>', matchKey:'الله اكبر'});
+  }
+
+  return steps;
+}
+
+const WUDU_STAGES = [
+  {t:'النية بالقلب، ثم التسمية: <span class="dhikr">بسم الله</span>', repeat:1, key:'بسم الله'},
+  {t:'غسل الكفين', repeat:3},
+  {t:'المضمضة', repeat:3},
+  {t:'الاستنشاق والاستنثار', repeat:3},
+  {t:'غسل الوجه (من منابت الشعر إلى الذقن، ومن الأذن إلى الأذن)', repeat:3},
+  {t:'غسل اليد اليمنى إلى المرفق', repeat:3},
+  {t:'غسل اليد اليسرى إلى المرفق', repeat:3},
+  {t:'مسح الرأس (من المقدمة إلى المؤخرة والعودة)', repeat:1},
+  {t:'مسح الأذنين', repeat:1},
+  {t:'غسل الرجل اليمنى إلى الكعبين', repeat:3},
+  {t:'غسل الرجل اليسرى إلى الكعبين', repeat:3},
+  {t:'الشهادة: <span class="dhikr">أشهد أن لا إله إلا الله وحده لا شريك له، وأشهد أن محمدًا عبده ورسوله</span>', repeat:1, key:'اشهد ان لا اله الا الله'},
+];
+let wuduStage = 0, wuduCount = 0;
+
+let currentPrayer=null, currentType=null, currentRakaah=1, currentMode=null; // mode: 'prayer' | 'wudu'
+let recognition=null, listening=false, activeStepIndex=-1, versePointer=0, verseBuf=[];
+
+function renderHome(){
+  const list = document.getElementById('prayerList');
+  list.innerHTML = '';
+  Object.entries(PRAYERS).forEach(([key, p]) => {
+    const el = document.createElement('div');
+    el.className = 'prayer';
+    el.innerHTML = `
+      <div class="prayer-head" data-key="${key}">
+        <div>
+          <div class="prayer-name">${p.name}</div>
+          <div class="prayer-meta">${p.types.map(t=>t.name).join(' · ')}</div>
+        </div>
+        <div class="chev">▾</div>
+      </div>
+      <div class="types">
+        ${p.types.map(t=>`
+          <div class="type-row" data-prayer="${key}" data-type="${t.key}">
+            <span class="type-name">${t.name}</span>
+            <span class="type-count">${t.rakaat} ${t.rakaat===1?'ركعة':'ركعات'}</span>
+          </div>`).join('')}
+      </div>`;
+    list.appendChild(el);
+  });
+  list.querySelectorAll('.prayer-head').forEach(h=>{
+    h.addEventListener('click', ()=> h.closest('.prayer').classList.toggle('open'));
+  });
+  list.querySelectorAll('.type-row').forEach(r=>{
+    r.addEventListener('click', (e)=>{ e.stopPropagation(); openPrayerDetail(r.dataset.prayer, r.dataset.type); });
+  });
+  document.getElementById('wuduCard').addEventListener('click', openWuduDetail);
+}
+
+function normalizeAr(s){
+  if(!s) return '';
+  return s
+    .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/g,'') // diacritics
+    .replace(/[إأآا]/g,'ا')
+    .replace(/ة/g,'ه')
+    .replace(/ى/g,'ي')
+    .replace(/[^؀-ۿ\s0-9]/g,'')
+    .replace(/\s+/g,' ')
+    .trim();
+}
+
+function showDetailShell(){
+  document.getElementById('homeView').classList.add('hide');
+  document.getElementById('detailView').classList.add('show');
+  document.getElementById('backBtn').classList.add('show');
+  stopListening();
+}
+
+function openPrayerDetail(prayerKey, typeKey){
+  currentMode='prayer'; currentPrayer = prayerKey; currentType = typeKey; currentRakaah = 1;
+  const p = PRAYERS[prayerKey];
+  const t = p.types.find(x=>x.key===typeKey);
+  showDetailShell();
+
+  document.getElementById('detailTitle').textContent = `${t.name} ${p.name}`;
+  document.getElementById('detailSub').textContent = `${t.rakaat} ${t.rakaat===1?'ركعة واحدة':'ركعات'}`;
+
+  const tabs = document.getElementById('rakaahTabs');
+  tabs.style.display='flex';
+  tabs.innerHTML = '';
+  for(let i=1;i<=t.rakaat;i++){
+    const b = document.createElement('button');
+    b.className = 'tab' + (i===1?' active':'');
+    b.textContent = `الركعة ${ordinal(i)}`;
+    b.addEventListener('click', ()=> showRakaah(i, true));
+    tabs.appendChild(b);
+  }
+  currentT = t;
+  showRakaah(1, true);
+}
+
+let currentT = null;
+function randomShortSurah(prev){
+  const pool = Object.keys(SURAHS).filter(n => n!==prev && SURAHS[n].split(' ').length <= 55);
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+function showRakaah(i, reroll){
+  currentRakaah = i;
+  document.querySelectorAll('#rakaahTabs .tab').forEach((x,k)=>x.classList.toggle('active', k===i-1));
+  if(reroll) chosenSurah = randomShortSurah(chosenSurah);
+  renderSteps(buildRakaahSteps(i, currentT.rakaat, currentType==='witr' && currentT.rakaat===1));
+  if(listening) setActiveStep(0);
+}
+
+function openWuduDetail(){
+  currentMode='wudu';
+  showDetailShell();
+  document.getElementById('detailTitle').textContent = 'الوضوء';
+  document.getElementById('detailSub').textContent = 'عدّ كل مرة بالصوت (واحد، اثنين، ثلاثة) أو بالضغط على الزر';
+  document.getElementById('rakaahTabs').style.display='none';
+  document.getElementById('rakaahTabs').innerHTML='';
+  wuduStage = 0; wuduCount = 0;
+  renderWudu();
+}
+
+function renderWudu(){
+  const list = document.getElementById('stepsList');
+  const finished = wuduStage >= WUDU_STAGES.length;
+  list.innerHTML = `<div class="wudu-tools"><span></span><button class="reset-btn" id="wuduReset">إعادة من البداية</button></div>` +
+    WUDU_STAGES.map((st,i)=>{
+      const done = i < wuduStage, active = i === wuduStage;
+      const dots = st.repeat > 1 || active ? Array.from({length:st.repeat},(_,k)=>`<span class="dot ${done || (active && k<wuduCount) ? 'on':''}"></span>`).join('') : '';
+      return `<div class="stage ${done?'done':''} ${active?'active-step':''}" data-i="${i}">
+        <div class="stage-num">${done?'✓':i+1}</div>
+        <div class="stage-body"><div class="stage-title">${st.t}${st.repeat>1?` — ${st.repeat} مرات`:''}</div><div class="dots">${dots}</div></div>
+        <button class="count-btn" data-tap="1">${active? (wuduCount+1>st.repeat?st.repeat:wuduCount+1) : ''}＋</button>
+      </div>`;
+    }).join('') + (finished ? '<div class="finish">تقبّل الله وضوءك 🤍</div>' : '');
+  document.getElementById('wuduReset').addEventListener('click', ()=>{ wuduStage=0; wuduCount=0; renderWudu(); });
+  list.querySelectorAll('[data-tap]').forEach(b=>b.addEventListener('click', ()=> wuduAdvance(1)));
+  const el = list.querySelector('.active-step');
+  if(el) el.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+function wuduAdvance(n, absolute){
+  if(wuduStage >= WUDU_STAGES.length) return;
+  const st = WUDU_STAGES[wuduStage];
+  wuduCount = absolute ? Math.min(n, st.repeat) : Math.min(wuduCount + n, st.repeat);
+  if(wuduCount >= st.repeat){
+    wuduStage++; wuduCount = 0;
+    if(wuduStage >= WUDU_STAGES.length) voiceStatus.textContent = '✅ اكتمل الوضوء';
+  }
+  renderWudu();
+}
+
+const NUM_WORDS = [
+  [3, ['ثلاثه','ثلاث','تلات','تلاته','٣','3']],
+  [2, ['اثنين','اتنين','اثنان','ثنتين','٢','2']],
+  [1, ['واحد','وحده','١','1']],
+];
+function wuduHeard(transcript){
+  if(wuduStage >= WUDU_STAGES.length) return;
+  const st = WUDU_STAGES[wuduStage];
+  if(st.key && transcript.includes(st.key)){ wuduAdvance(1); return; }
+  const words = transcript.split(' ');
+  let best = 0;
+  words.forEach(w=>{ NUM_WORDS.forEach(([n,list])=>{ if(list.includes(w) && n>best) best=n; }); });
+  if(best>wuduCount) wuduAdvance(best, true);
+}
+
+function renderSteps(steps){
+  activeStepIndex = -1; versePointer = 0; verseBuf = [];
+  const list = document.getElementById('stepsList');
+  list.innerHTML = steps.map((s,i)=>`
+    <div class="step" data-i="${i}">
+      <div class="step-num">${i+1}</div>
+      <div class="step-text">${s.html}
+        ${s.surahPicker ? `<div><select class="surah-select" id="surahSelect">${Object.keys(SURAHS).map(n=>`<option ${n===chosenSurah?'selected':''}>${n}</option>`).join('')}</select></div>` : ''}
+        ${s.verses ? `<div class="verses">${s.verses.map((v,vi)=>`<div class="verse" data-vi="${vi}">﴿${v.text}﴾</div>`).join('')}</div>
+        <div class="verse-progress" data-vp>تُتابَع آية آية أثناء الاستماع الصوتي</div>` : ''}
+      </div>
+    </div>`).join('');
+  const sel = document.getElementById('surahSelect');
+  if(sel) sel.addEventListener('change', ()=>{ chosenSurah = sel.value; showRakaah(currentRakaah, false); });
+  list.dataset.steps = JSON.stringify(steps.map(s=>({
+    matchKey: Array.isArray(s.matchKey) ? s.matchKey.map(normalizeAr) : (s.matchKey ? [normalizeAr(s.matchKey)] : []),
+    verses: (s.verses||[]).map(v=>({k:normalizeAr(v.key), opt:!!v.opt}))
+  })));
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+document.getElementById('backBtn').addEventListener('click', ()=>{
+  stopListening();
+  document.getElementById('detailView').classList.remove('show');
+  document.getElementById('homeView').classList.remove('hide');
+  document.getElementById('backBtn').classList.remove('show');
+});
+
+// --- voice follow-along (Web Speech API, browser-native, best-effort) ---
+const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+const voiceBtn = document.getElementById('voiceBtn');
+const voiceStatus = document.getElementById('voiceStatus');
+
+if(!SpeechRec){
+  voiceBtn.style.display='none';
+  voiceStatus.textContent = 'المتابعة الصوتية غير مدعومة في هذا المتصفح — جرّب Chrome على الكمبيوتر أو الأندرويد.';
+} else {
+  voiceBtn.addEventListener('click', ()=>{ listening ? stopListening() : startListening(); });
+}
+
+function startListening(){
+  if(!SpeechRec) return;
+  recognition = new SpeechRec();
+  recognition.lang = 'ar-SA';
+  recognition.continuous = true;
+  recognition.interimResults = false;
+
+  recognition.onresult = (e)=>{
+    let raw = '';
+    for(let r=e.resultIndex; r<e.results.length; r++) raw += ' ' + e.results[r][0].transcript;
+    const transcript = normalizeAr(raw);
+    if(currentMode==='wudu') wuduHeard(transcript); else checkStepMatch(transcript);
+  };
+  recognition.onerror = ()=>{ voiceStatus.textContent = 'تعذّر الوصول للميكروفون أو تعطّل التعرف — حاول مجددًا.'; };
+  recognition.onend = ()=>{ if(listening) recognition.start(); }; // keep alive while active
+
+  try{
+    recognition.start();
+    listening = true;
+    voiceBtn.textContent = '⏸️ إيقاف المتابعة';
+    voiceBtn.classList.add('on');
+    voiceStatus.textContent = '🎙️ يستمع الآن... انطق الذكر لتنتقل الخطوة تلقائيًا';
+    if(currentMode!=='wudu') setActiveStep(0);
+  } catch(err){
+    voiceStatus.textContent = 'تعذّر بدء المتابعة الصوتية.';
+  }
+}
+
+function stopListening(){
+  listening = false;
+  if(recognition){ try{ recognition.stop(); }catch(e){} }
+  voiceBtn.textContent = '🎙️ متابعة صوتية';
+  voiceBtn.classList.remove('on');
+  voiceStatus.textContent = 'استمع لصوتك وينتقل تلقائيًا مع كل خطوة';
+  if(currentMode!=='wudu') clearActiveStep();
+}
+
+function setActiveStep(i){
+  clearActiveStep();
+  activeStepIndex = i;
+  versePointer = 0; verseBuf = [];
+  const el = document.querySelector(`.step[data-i="${i}"]`);
+  if(el){ el.classList.add('active-step'); el.scrollIntoView({behavior:'smooth', block:'center'}); }
+}
+function clearActiveStep(){
+  document.querySelectorAll('.step.active-step').forEach(e=>e.classList.remove('active-step'));
+}
+
+function checkStepMatch(transcript){
+  const list = document.getElementById('stepsList');
+  const steps = JSON.parse(list.dataset.steps || '[]');
+  if(activeStepIndex<0) activeStepIndex=0;
+  const cur = steps[activeStepIndex];
+
+  if(cur && cur.verses && cur.verses.length){
+    handleVerseListen(cur.verses, transcript, steps.length);
+    return;
+  }
+
+  // look ahead from current step for a matching key (skip steps with no matchKey)
+  for(let i=activeStepIndex; i<steps.length; i++){
+    const keyList = steps[i].matchKey || [];
+    const isMatch = keyList.some(k => k && transcript.includes(k.split(' ').slice(0,3).join(' ')));
+    if(isMatch){
+      const next = Math.min(i+1, steps.length-1);
+      if(i === steps.length-1){
+        voiceStatus.textContent = '✅ انتهت الخطوات — أحسنت';
+        setActiveStep(i);
+        advanceRakaahIfPossible();
+      } else {
+        setActiveStep(next);
+        voiceStatus.textContent = '🎙️ يستمع الآن...';
+      }
+      return;
+    }
+  }
+}
+
+function tokEq(a,b){
+  if(a===b) return true;
+  if(a.length>3 && b.length>3) return a.replace(/ا/g,'')===b.replace(/ا/g,'');
+  return false;
+}
+// greedy in-order match of a verse against buffered tokens; returns end index or -1
+function matchVerse(vt, buf){
+  const need = Math.max(1, Math.ceil(vt.length*0.6));
+  for(let off=0; off<=Math.min(3, buf.length-1); off++){
+    let pos = off, matched = 0;
+    for(const w of vt){
+      let found = -1;
+      for(let j=pos; j<Math.min(buf.length, pos+4); j++){ if(tokEq(buf[j], w)){ found=j; break; } }
+      if(found>=0){ matched++; pos = found+1; }
+    }
+    if(matched>=need) return pos;
+  }
+  return -1;
+}
+
+function handleVerseListen(verses, transcript, totalSteps){
+  verseBuf.push(...transcript.split(' ').filter(Boolean));
+  if(verseBuf.length>60) verseBuf = verseBuf.slice(-60);
+  let moved = true;
+  while(moved && versePointer < verses.length){
+    moved = false;
+    let v = verses[versePointer];
+    let end = matchVerse(v.k.split(' '), verseBuf);
+    // optional verse (basmala) may be skipped if the next verse is what we hear
+    if(end < 0 && v.opt && versePointer+1 < verses.length){
+      const e2 = matchVerse(verses[versePointer+1].k.split(' '), verseBuf);
+      if(e2 >= 0){ markVerseDone(versePointer); versePointer++; v = verses[versePointer]; end = e2; }
+    }
+    if(end >= 0){
+      markVerseDone(versePointer);
+      versePointer++;
+      verseBuf = verseBuf.slice(end);
+      moved = true;
+    }
+  }
+  // finished when all non-optional verses are done
+  const bar = document.querySelector(`.step[data-i="${activeStepIndex}"] [data-vp]`);
+  if(versePointer >= verses.length){
+    if(activeStepIndex === totalSteps-1){
+      voiceStatus.textContent = '✅ انتهت الخطوات — أحسنت';
+      advanceRakaahIfPossible();
+    } else {
+      setActiveStep(activeStepIndex+1);
+      voiceStatus.textContent = '🎙️ يستمع الآن...';
+    }
+  } else if(bar){
+    bar.textContent = `آية ${versePointer} من ${verses.length}`;
+  }
+}
+
+function markVerseDone(v){
+  const el = document.querySelector(`.step[data-i="${activeStepIndex}"] .verse[data-vi="${v}"]`);
+  if(el) el.classList.add('verse-done');
+}
+
+function advanceRakaahIfPossible(){
+  if(currentMode !== 'prayer') return;
+  const tabs = document.getElementById('rakaahTabs');
+  const active = tabs.querySelector('.tab.active');
+  const next = active && active.nextElementSibling;
+  if(next && next.classList.contains('tab')){
+    setTimeout(()=> next.click(), 500);
+  }
+}
+
+renderHome();
+</script>
+</body>
+</html>
