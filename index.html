@@ -188,12 +188,13 @@ function buildRakaahSteps(idx, total, isWitrSingle){
   }
 
   steps.push({html:'الركوع: <span class="dhikr">الله أكبر</span>، والانحناء مع وضع اليدين على الركبتين', matchKey:'الله اكبر'});
-  steps.push({html:'التسبيح في الركوع: <span class="dhikr">سبحان ربي العظيم</span> (ثلاث مرات)', matchKey:'سبحان ربي العظيم'});
-  steps.push({html:'الرفع من الركوع: <span class="dhikr">سمع الله لمن حمده</span>، وعند الاعتدال: <span class="dhikr">ربنا ولك الحمد</span>', matchKey:'سمع الله لمن حمده'});
+  steps.push({html:'التسبيح في الركوع: <span class="dhikr">سبحان ربي العظيم</span>', matchKey:'سبحان ربي العظيم', repeat:3});
+  steps.push({html:'الرفع من الركوع: <span class="dhikr">سمع الله لمن حمده</span>، وعند الاعتدال: <span class="dhikr">ربنا ولك الحمد</span><br>ويمكن الإطالة بزيادة: <span class="dhikr">حمدًا كثيرًا طيبًا مباركًا فيه، ملء السماوات وملء الأرض، وملء ما شئت من شيء بعد</span>', matchKey:['سمع الله لمن حمده ربنا ولك الحمد','ربنا ولك الحمد حمدا كثيرا طيبا مباركا فيه ملء السماوات وملء الارض وملء ما شئت من شيء بعد']});
   steps.push({html:'السجود الأول: <span class="dhikr">الله أكبر</span>', matchKey:'الله اكبر'});
-  steps.push({html:'التسبيح في السجود: <span class="dhikr">سبحان ربي الأعلى</span> (ثلاث مرات)', matchKey:'سبحان ربي الاعلى'});
-  steps.push({html:'الجلوس بين السجدتين: <span class="dhikr">الله أكبر</span>، ثم <span class="dhikr">رب اغفر لي</span>', matchKey:'رب اغفر لي'});
-  steps.push({html:'السجود الثاني: <span class="dhikr">الله أكبر</span>، ثم <span class="dhikr">سبحان ربي الأعلى</span> (ثلاث مرات)', matchKey:'سبحان ربي الاعلى'});
+  steps.push({html:'التسبيح في السجود: <span class="dhikr">سبحان ربي الأعلى</span>', matchKey:'سبحان ربي الاعلى', repeat:3});
+  steps.push({html:'الجلوس بين السجدتين: <span class="dhikr">الله أكبر</span>، ثم <span class="dhikr">رب اغفر لي</span> (تُقال مرتين)<br>أو الدعاء الأطول: <span class="dhikr">اللهم اغفر لي وارحمني واجبرني واهدني وعافني وارزقني</span>', matchKey:['رب اغفر لي رب اغفر لي','اللهم اغفر لي وارحمني واجبرني واهدني وعافني وارزقني']});
+  steps.push({html:'السجود الثاني: <span class="dhikr">الله أكبر</span>', matchKey:'الله اكبر'});
+  steps.push({html:'التسبيح في السجود الثاني: <span class="dhikr">سبحان ربي الأعلى</span>', matchKey:'سبحان ربي الاعلى', repeat:3});
 
   const isTashahhudMiddle = !last && (idx === 2) && total > 2;
 
@@ -230,7 +231,7 @@ const WUDU_STAGES = [
 let wuduStage = 0, wuduCount = 0;
 
 let currentPrayer=null, currentType=null, currentRakaah=1, currentMode=null; // mode: 'prayer' | 'wudu'
-let recognition=null, listening=false, activeStepIndex=-1, versePointer=0, verseBuf=[];
+let recognition=null, listening=false, activeStepIndex=-1, versePointer=0, repeatProgress=0, listenBuf=[];
 
 function renderHome(){
   const list = document.getElementById('prayerList');
@@ -376,13 +377,14 @@ function wuduHeard(transcript){
 }
 
 function renderSteps(steps){
-  activeStepIndex = -1; versePointer = 0; verseBuf = [];
+  activeStepIndex = -1; versePointer = 0; repeatProgress = 0; listenBuf = [];
   const list = document.getElementById('stepsList');
   list.innerHTML = steps.map((s,i)=>`
     <div class="step" data-i="${i}">
       <div class="step-num">${i+1}</div>
       <div class="step-text">${s.html}
         ${s.surahPicker ? `<div><select class="surah-select" id="surahSelect">${Object.keys(SURAHS).map(n=>`<option ${n===chosenSurah?'selected':''}>${n}</option>`).join('')}</select></div>` : ''}
+        ${s.repeat>1 ? `<div class="dots" data-rp>${Array.from({length:s.repeat},()=>'<span class="dot"></span>').join('')}</div>` : ''}
         ${s.verses ? `<div class="verses">${s.verses.map((v,vi)=>`<div class="verse" data-vi="${vi}">﴿${v.text}﴾</div>`).join('')}</div>
         <div class="verse-progress" data-vp>تُتابَع آية آية أثناء الاستماع الصوتي</div>` : ''}
       </div>
@@ -391,6 +393,7 @@ function renderSteps(steps){
   if(sel) sel.addEventListener('change', ()=>{ chosenSurah = sel.value; showRakaah(currentRakaah, false); });
   list.dataset.steps = JSON.stringify(steps.map(s=>({
     matchKey: Array.isArray(s.matchKey) ? s.matchKey.map(normalizeAr) : (s.matchKey ? [normalizeAr(s.matchKey)] : []),
+    repeat: s.repeat||1,
     verses: (s.verses||[]).map(v=>({k:normalizeAr(v.key), opt:!!v.opt}))
   })));
   window.scrollTo({top:0, behavior:'smooth'});
@@ -426,7 +429,7 @@ function startListening(){
     let raw = '';
     for(let r=e.resultIndex; r<e.results.length; r++) raw += ' ' + e.results[r][0].transcript;
     const transcript = normalizeAr(raw);
-    if(currentMode==='wudu') wuduHeard(transcript); else checkStepMatch(transcript);
+    if(currentMode==='wudu') wuduHeard(transcript); else processListen(transcript);
   };
   recognition.onerror = ()=>{ voiceStatus.textContent = 'تعذّر الوصول للميكروفون أو تعطّل التعرف — حاول مجددًا.'; };
   recognition.onend = ()=>{ if(listening) recognition.start(); }; // keep alive while active
@@ -452,45 +455,22 @@ function stopListening(){
   if(currentMode!=='wudu') clearActiveStep();
 }
 
+// setActiveStep: manual/explicit navigation — resets the listening buffer entirely
 function setActiveStep(i){
-  clearActiveStep();
   activeStepIndex = i;
-  versePointer = 0; verseBuf = [];
+  versePointer = 0; repeatProgress = 0; listenBuf = [];
+  highlightStep(i);
+}
+// highlightStep: internal auto-advance while listening — keeps listenBuf intact
+// so speech already captured for the NEXT step (said without pausing) isn't lost.
+function highlightStep(i){
+  clearActiveStep();
+  versePointer = 0; repeatProgress = 0;
   const el = document.querySelector(`.step[data-i="${i}"]`);
   if(el){ el.classList.add('active-step'); el.scrollIntoView({behavior:'smooth', block:'center'}); }
 }
 function clearActiveStep(){
   document.querySelectorAll('.step.active-step').forEach(e=>e.classList.remove('active-step'));
-}
-
-function checkStepMatch(transcript){
-  const list = document.getElementById('stepsList');
-  const steps = JSON.parse(list.dataset.steps || '[]');
-  if(activeStepIndex<0) activeStepIndex=0;
-  const cur = steps[activeStepIndex];
-
-  if(cur && cur.verses && cur.verses.length){
-    handleVerseListen(cur.verses, transcript, steps.length);
-    return;
-  }
-
-  // look ahead from current step for a matching key (skip steps with no matchKey)
-  for(let i=activeStepIndex; i<steps.length; i++){
-    const keyList = steps[i].matchKey || [];
-    const isMatch = keyList.some(k => k && transcript.includes(k.split(' ').slice(0,3).join(' ')));
-    if(isMatch){
-      const next = Math.min(i+1, steps.length-1);
-      if(i === steps.length-1){
-        voiceStatus.textContent = '✅ انتهت الخطوات — أحسنت';
-        setActiveStep(i);
-        advanceRakaahIfPossible();
-      } else {
-        setActiveStep(next);
-        voiceStatus.textContent = '🎙️ يستمع الآن...';
-      }
-      return;
-    }
-  }
 }
 
 function tokEq(a,b){
@@ -513,44 +493,82 @@ function matchVerse(vt, buf){
   return -1;
 }
 
-function handleVerseListen(verses, transcript, totalSteps){
-  verseBuf.push(...transcript.split(' ').filter(Boolean));
-  if(verseBuf.length>60) verseBuf = verseBuf.slice(-60);
-  let moved = true;
-  while(moved && versePointer < verses.length){
-    moved = false;
-    let v = verses[versePointer];
-    let end = matchVerse(v.k.split(' '), verseBuf);
-    // optional verse (basmala) may be skipped if the next verse is what we hear
-    if(end < 0 && v.opt && versePointer+1 < verses.length){
-      const e2 = matchVerse(verses[versePointer+1].k.split(' '), verseBuf);
-      if(e2 >= 0){ markVerseDone(versePointer); versePointer++; v = verses[versePointer]; end = e2; }
-    }
-    if(end >= 0){
-      markVerseDone(versePointer);
-      versePointer++;
-      verseBuf = verseBuf.slice(end);
-      moved = true;
-    }
-  }
-  // finished when all non-optional verses are done
-  const bar = document.querySelector(`.step[data-i="${activeStepIndex}"] [data-vp]`);
-  if(versePointer >= verses.length){
-    if(activeStepIndex === totalSteps-1){
-      voiceStatus.textContent = '✅ انتهت الخطوات — أحسنت';
-      advanceRakaahIfPossible();
-    } else {
-      setActiveStep(activeStepIndex+1);
-      voiceStatus.textContent = '🎙️ يستمع الآن...';
-    }
-  } else if(bar){
-    bar.textContent = `آية ${versePointer} من ${verses.length}`;
-  }
-}
-
 function markVerseDone(v){
   const el = document.querySelector(`.step[data-i="${activeStepIndex}"] .verse[data-vi="${v}"]`);
   if(el) el.classList.add('verse-done');
+}
+function updateRepeatDots(n){
+  const dots = document.querySelectorAll(`.step[data-i="${activeStepIndex}"] [data-rp] .dot`);
+  dots.forEach((d,k)=> d.classList.toggle('on', k<n));
+}
+// try to match any one of a step's key alternatives against the buffer (fuzzy, in order)
+function matchAnyKey(keys, buf){
+  let best = -1;
+  for(const k of keys){ if(!k) continue; const e = matchVerse(k.split(' '), buf); if(e>best) best = e; }
+  return best;
+}
+
+// Unified listen loop: consumes listenBuf against the current step (verse / repeated
+// dhikr / simple dhikr / silent pass-through), advancing through as many completed
+// steps as the buffered speech supports — so reciting without pausing still counts.
+function processListen(transcript){
+  listenBuf.push(...transcript.split(' ').filter(Boolean));
+  if(listenBuf.length>80) listenBuf = listenBuf.slice(-80);
+
+  const list = document.getElementById('stepsList');
+  const steps = JSON.parse(list.dataset.steps || '[]');
+  if(activeStepIndex<0) activeStepIndex = 0;
+
+  let guard = 0;
+  while(guard++ < steps.length+5 && activeStepIndex < steps.length){
+    const cur = steps[activeStepIndex];
+    let stepDone = false;
+
+    if(cur.verses && cur.verses.length){
+      let v = cur.verses[versePointer];
+      let end = v ? matchVerse(v.k.split(' '), listenBuf) : -1;
+      if(end < 0 && v && v.opt && versePointer+1 < cur.verses.length){
+        const e2 = matchVerse(cur.verses[versePointer+1].k.split(' '), listenBuf);
+        if(e2 >= 0){ markVerseDone(versePointer); versePointer++; end = e2; }
+      }
+      if(end >= 0){
+        markVerseDone(versePointer);
+        versePointer++;
+        listenBuf = listenBuf.slice(end);
+        const bar = document.querySelector(`.step[data-i="${activeStepIndex}"] [data-vp]`);
+        if(bar) bar.textContent = `آية ${versePointer} من ${cur.verses.length}`;
+        if(versePointer >= cur.verses.length) stepDone = true;
+        else continue; // keep consuming more verses from the same buffer
+      } else break;
+    } else if(cur.repeat > 1){
+      const end = matchAnyKey(cur.matchKey, listenBuf);
+      if(end >= 0){
+        repeatProgress++;
+        listenBuf = listenBuf.slice(end);
+        updateRepeatDots(repeatProgress);
+        if(repeatProgress >= cur.repeat) stepDone = true;
+        else continue;
+      } else break;
+    } else if(cur.matchKey && cur.matchKey.length){
+      const end = matchAnyKey(cur.matchKey, listenBuf);
+      if(end >= 0){ listenBuf = listenBuf.slice(end); stepDone = true; }
+      else break;
+    } else {
+      stepDone = true; // silent instructional step (e.g. النية) — nothing to detect
+    }
+
+    if(stepDone){
+      if(activeStepIndex === steps.length-1){
+        voiceStatus.textContent = '✅ انتهت الخطوات — أحسنت';
+        advanceRakaahIfPossible();
+        break;
+      } else {
+        activeStepIndex++;
+        highlightStep(activeStepIndex);
+        voiceStatus.textContent = '🎙️ يستمع الآن...';
+      }
+    }
+  }
 }
 
 function advanceRakaahIfPossible(){
